@@ -1,0 +1,18 @@
+[package]
+name = "iex"
+version = "0.1.0"
+authors = ["Mark H. Colburn <colburn.mark@gmail.com>"]
+description = "Rust interfaces for using the IEX stock quote API."
+edition = "2018"
+
+[badges]
+travis-ci = { repository = "markcol/iex-rs", branch = "master" }
+
+[dependencies]
+reqwest = "0.9"
+failure = "0.1"
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
+serde-aux = "0.5"
+chrono = { version = "0.4", features = ["serde"] }

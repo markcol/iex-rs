@@ -104,11 +104,13 @@ extern crate chrono;
 extern crate failure;
 extern crate reqwest;
 extern crate serde;
+extern crate serde_aux;
 extern crate serde_json;
 
 use chrono::prelude::*;
 use failure::{Backtrace, Context, Fail, ResultExt};
 use serde::de::{self, Deserialize, Deserializer};
+use serde_aux::prelude::*;
 use serde_json::Value;
 use std::fmt::{self, Display, Formatter};
 use std::result;
@@ -225,7 +227,7 @@ pub trait Endpoint {
     fn to_endpoint(self) -> String;
 }
 
-fn from_str<'de, T, D>(deserializer: D) -> result::Result<T, D::Error>
+pub fn from_str<'de, T, D>(deserializer: D) -> result::Result<T, D::Error>
 where
     T: FromStr,
     T::Err: Display,
@@ -238,7 +240,7 @@ where
     T::from_str(&s).map_err(de::Error::custom)
 }
 
-fn from_bool_str<'de, T, D>(deserializer: D) -> result::Result<T, D::Error>
+pub fn from_bool_str<'de, T, D>(deserializer: D) -> result::Result<T, D::Error>
 where
     T: FromStr,
     T::Err: Display,
@@ -270,85 +272,69 @@ mod tests {
 
     #[test]
     fn client_request_chart() {
-        assert!(
-            CLIENT
-                .stocks_request(
-                    symbol,
-                    StocksEndpoint::Chart {
-                        duration,
-                        params: None
-                    }
-                )
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(
+                symbol,
+                StocksEndpoint::Chart {
+                    duration,
+                    params: None
+                }
+            )
+            .is_ok());
     }
 
     #[test]
     fn client_request_company() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::Company)
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::Company)
+            .is_ok());
     }
 
     #[test]
     fn client_request_delayed_quote() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::DelayedQuote)
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::DelayedQuote)
+            .is_ok());
     }
 
     #[test]
     fn client_request_dividends() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::Dividends { duration })
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::Dividends { duration })
+            .is_ok());
     }
 
     #[test]
     fn client_request_earnings() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::Earnings)
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::Earnings)
+            .is_ok());
     }
 
     #[test]
     fn client_request_effective_spread() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::EffectiveSpread)
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::EffectiveSpread)
+            .is_ok());
     }
 
     #[test]
     fn client_request_financials() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::Financials)
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::Financials)
+            .is_ok());
     }
 
     #[test]
     fn client_request_list() {
-        assert!(
-            CLIENT
-                .stocks_request(
-                    "market",
-                    StocksEndpoint::List {
-                        param: ListParam::Gainers
-                    }
-                )
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(
+                "market",
+                StocksEndpoint::List {
+                    param: ListParam::Gainers
+                }
+            )
+            .is_ok());
     }
 
     #[test]
@@ -358,11 +344,9 @@ mod tests {
 
     #[test]
     fn client_request_news() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::News { range: None })
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::News { range: None })
+            .is_ok());
     }
 
     #[test]
@@ -377,11 +361,9 @@ mod tests {
 
     #[test]
     fn client_request_previous() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::Previous)
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::Previous)
+            .is_ok());
     }
 
     #[test]
@@ -396,20 +378,16 @@ mod tests {
 
     #[test]
     fn client_request_relevant() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::Relevant)
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::Relevant)
+            .is_ok());
     }
 
     #[test]
     fn client_request_splits() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::Splits { duration })
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::Splits { duration })
+            .is_ok());
     }
 
     #[test]
@@ -419,19 +397,15 @@ mod tests {
 
     #[test]
     fn client_request_threshold_securities() {
-        assert!(
-            CLIENT
-                .stocks_request("market", StocksEndpoint::ThresholdSecurities { date: None })
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request("market", StocksEndpoint::ThresholdSecurities { date: None })
+            .is_ok());
     }
 
     #[test]
     fn client_request_volume_by_venue() {
-        assert!(
-            CLIENT
-                .stocks_request(symbol, StocksEndpoint::VolumeByVenue)
-                .is_ok()
-        );
+        assert!(CLIENT
+            .stocks_request(symbol, StocksEndpoint::VolumeByVenue)
+            .is_ok());
     }
 }

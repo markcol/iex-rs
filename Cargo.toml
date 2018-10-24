@@ -3,7 +3,7 @@ name = "iex"
 version = "0.1.0"
 authors = ["Mark H. Colburn <colburn.mark@gmail.com>"]
 description = "Rust interfaces for using the IEX stock quote API."
-# edition = "2018"
+edition = "2018"
 
 [badges]
 travis-ci = { repository = "markcol/iex-rs", branch = "master" }
